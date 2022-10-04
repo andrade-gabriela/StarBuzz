@@ -1,8 +1,13 @@
 import urllib.request
 
-pagina = urllib.request.urlopen("http://beans.itcarlow.ie/prices-loyalty.html")
-texto = pagina.read().decode("utf8")
-inicio = texto.find(">$") + 2
-fim = texto.find('</', inicio)
-preco = texto[inicio:fim]
-print(preco)
+def lerUrl(url):
+    pagina = urllib.request.urlopen(url)
+    texto = pagina.read().decode("utf8")
+    return identificaValor(texto)
+
+def identificaValor(conteudo):
+    inicio = conteudo.find(">$") + 2
+    fim = conteudo.find('</', inicio)
+    return conteudo[inicio:fim]
+
+print(lerUrl("http://beans.itcarlow.ie/prices-loyalty.html"))
