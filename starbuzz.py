@@ -2,15 +2,21 @@
 # 04/10/2022
 
 import urllib.request
-import smtplib
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import smtplib
 
 
 def main():
     # 
     def compra(url):
-        preco = lerUrl("http://beans.itcarlow.ie/prices-loyalty.html")
-        print(preco)
+
+        preco = float(lerUrl("http://beans.itcarlow.ie/prices-loyalty.html"))
+        
+        email = input('Digite seu e-mail para receber um aviso quando o preço for inferior a R$4,70\n')
+
+        if preco < 4.7:
+            enviaEmail(email)
 
     #
     def lerUrl(url):
@@ -23,22 +29,49 @@ def main():
         fim = conteudo.find('</', inicio)
         return conteudo[inicio:fim]
 
-    def enviaEmail():
-        remetente = '' #criar um email
-        destino = [''] #email de quem vai receber
+    def enviaEmail(email):
 
-        port = 1025
-        msg = MIMEText('Texto do e-mail')
+        msg = MIMEMultipart()
 
-        msg['Subject'] = 'Test e-mail'
-        msg['From'] = ''#email criado p/ remetente
-        msg['To'] = ''#email destino
+        message = "oi"
 
-        with smtplib.SMTP('localhost', port) as server:
+        #parametros para enviar a mensagem
+        password = "3nv143m41l851"
+        msg['Subject'] = "Test e-mail"
+        msg['From'] = "enviaemailbsi@gmail.com"
+        msg['To'] = "{}".format(email)
 
-            # server.login('username', 'password')
-            server.sendmail(remetente, destino, msg.as_string())
-            print("E-mail enviado com sucesso")
+        msg.attach(MIMEText(message, 'plain'))
+
+        server = smtplib.SMTP('smtp.gmail.com: 587')
+
+        server.starttls()
+
+        server.login(msg['From'], password)
+
+        server.sendmail(msg['From'], msg['To'], msg.as_string())
+
+        server.quit()
+ 
+        print("successfully sent email")
+
+
+
+        # remetente = 'enviaemailbsi@gmail.com'
+        # destino = ['{}'.format(email)]
+
+        # port = 1025
+        # msg = MIMEText('Texto do e-mail')
+
+        # msg['Subject'] = 'Test e-mail'
+        # msg['From'] = 'enviaemailbsi@gmail.com'
+        # msg['To'] = '{}'.format(email)
+
+        # with smtplib.SMTP('localhost', port) as server:
+
+        #     # server.login('username', 'password')
+        #     server.sendmail(remetente, destino, msg.as_string())
+        #     print("E-mail enviado com sucesso")
 
 
     compra("http://beans.itcarlow.ie/prices-loyalty.html")
