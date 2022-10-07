@@ -20,7 +20,7 @@ Status: Developing
 https://github.com/andrade-gabriela/StarBuzz.git
 ```
 
-- Entre na pasta:
+- Enter the folder:
   
 ```bash
 cd StarBuzz
