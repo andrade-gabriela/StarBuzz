@@ -43,3 +43,9 @@ poetry shell
 ```bash
 cd src
 ``` 
+
+- If you prefer, open vscode:
+
+```bash
+cd src
+``` 
